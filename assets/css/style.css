@@ -89,6 +89,8 @@ h1.page-title{font-size:20px;margin:4px 0 14px;display:flex;align-items:center;g
 .hero-banner{border-radius:14px;background:linear-gradient(120deg,#334, #565f75);color:#fff;padding:26px 30px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
 .hero-banner h2{font-size:22px}
 .hero-banner p{color:#cfd4de;font-size:13.5px;margin-top:4px}
+.btn-hero{background:transparent;color:#fff;border-color:#ffffff55}
+.btn-hero:hover{background:#ffffff1a;border-color:#fff;color:#fff}
 .sec-head{display:flex;justify-content:space-between;align-items:baseline;margin:20px 0 10px}
 .sec-head h3{font-size:17px;display:flex;gap:8px;align-items:center}
 .prod-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}

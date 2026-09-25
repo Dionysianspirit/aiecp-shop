@@ -30,7 +30,7 @@ window.Views = (function(){
       </div>
       <div class="row">
         <button class="btn btn-primary" onclick="App.go('#/login')">立即体验</button>
-        <a class="btn" style="color:#fff;border-color:#ffffff55" href="#/merchant/category">商家入口</a>
+        <a class="btn btn-hero" href="#/merchant/category">商家入口</a>
       </div>
     </div>
     <div class="grid prod-grid">${recHtml}</div>
