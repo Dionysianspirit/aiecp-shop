@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智选云 AI 电商在线售货系统</title>
+<meta name="description" content="智选云 AI 电商在线售货系统（AI-ECP）——JSON 品类自定义 + 智能客服/智能选品/智能组货 三大 AI 能力内建的在线售货平台">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
+</head>
+<body>
+<!-- 顶部导航 -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#/" onclick="App.go('/');return false;">
+      <span class="brand-logo">智</span>
+      <span class="brand-name">智选云 <em>AI-ECP</em></span>
+    </a>
+    <div class="top-search" id="top-search">
+      <input id="global-kw" type="text" placeholder="搜索商品 / 品类 / 属性…" onkeydown="if(event.key==='Enter')App.globalSearch()">
+      <button class="btn btn-primary" onclick="App.globalSearch()">搜索</button>
+    </div>
+    <nav class="top-actions" id="top-actions"><!-- 由 app.js 渲染 --></nav>
+  </div>
+  <div class="cat-nav" id="cat-nav"><!-- 一级品类导航 --></div>
+</header>
+
+<main id="view" class="view"><!-- 路由视图 --></main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <b>智选云 AI 电商在线售货系统</b>
+      <p>AI-ECP V1.0 · 依据《需求分析报告》（AIECP-SRS-001）与《系统设计报告》（AIECP-SDD-001）实现</p>
+      <p class="muted">品类 JSON 自定义（FR-07~10）· 智能客服（FR-13~16）· 智能选品（FR-17~20）· 智能组货（FR-21~23）</p>
+    </div>
+    <div class="footer-col">
+      <b>演示账号</b>
+      <p>平台管理员：admin / admin123</p>
+      <p>商家：shop001 / 123456</p>
+      <p>消费者：buyer001 / 123456</p>
+    </div>
+    <div class="footer-col">
+      <b>说明</b>
+      <p>本站为课程演示实现：数据保存在本机浏览器（localStorage），支付/物流为模拟网关，AI 能力遵循降级契约（响应携带 degraded / degradeReason）。</p>
+    </div>
+  </div>
+</footer>
+
+<!-- 弹层 -->
+<div id="modal-mask" class="modal-mask" hidden><div class="modal" id="modal-box"></div></div>
+<div id="toast" class="toast" hidden></div>
+
+<script src="assets/js/seed.js"></script>
+<script src="assets/js/db.js"></script>
+<script src="assets/js/category-engine.js"></script>
+<script src="assets/js/ai.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/views.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
