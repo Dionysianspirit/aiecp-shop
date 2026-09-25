@@ -190,3 +190,6 @@ h1.page-title{font-size:20px;margin:4px 0 14px;display:flex;align-items:center;g
   .top-search{display:none}
   .topbar-inner{justify-content:space-between}
 }
+
+/* hidden 属性兜底：防止被类选择器的 display 覆盖（如 .modal-mask 的 flex） */
+[hidden]{display:none!important}
