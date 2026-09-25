@@ -37,7 +37,7 @@ window.Views = (function(){
     ${rec ? `<p class="muted" style="margin-top:8px">🤖 智能选品（FR-17~20）：画像事件 ${rec.profileSummary.events} 条${rec.cold ? "，行为不足进入冷启动热门兜底（fallback）" : ""}${rec.degraded ? `；<span class="tag tag-err">已降级：${esc(rec.degradeReason)}</span>` : ""} · 刷新页面行为埋点更新后，推荐会随浏览变化</p>` : ""}
     <div class="sec-head"><h3>🧭 按品类逛</h3><a class="muted" href="#/list">全部商品 →</a></div>
     <div class="row">
-      ${trees.map(t => `<a class="card card-pad" style="min-width:180px" href="#/list?cat=${t.rootId}"><b>${esc(t.rootName)}</b><div class="muted" style="font-size:12px">${Object.values(t.schemas).filter(s => s.leaf).length} 个叶子品类 · v${t.version}</div></a>`).join("")}
+      ${trees.map(t => `<a class="card card-pad category-link" href="#/list?cat=${t.rootId}"><b>${esc(t.rootName)}</b><div class="muted" style="font-size:12px">${Object.values(t.schemas).filter(s => s.leaf).length} 个叶子品类 · v${t.version}</div></a>`).join("")}
     </div>
     <div class="sec-head"><h3>🔥 热销好物</h3></div>
     ${prodGrid(API.Catalog.list({ sort: "sales" }).data.slice(0, 6))}
@@ -151,7 +151,7 @@ window.Views = (function(){
       <div>
         <h1 style="font-size:20px;margin-bottom:6px">${esc(p.name)}</h1>
         <p class="muted" style="margin-bottom:10px">${esc(p.detail)}</p>
-        <div class="card card-pad" style="background:#fff8f5;border-color:#ffd9c7">
+        <div class="card card-pad detail-price">
           <div class="row spread">
             <div><span style="font-size:24px;color:var(--primary);font-weight:700">${fmt(p.skus[0].price)}</span>
             <small class="muted" style="text-decoration:line-through;margin-left:8px">市场价 ${fmt(p.skus[0].marketPrice)}</small></div>
@@ -170,9 +170,9 @@ window.Views = (function(){
         </div>
         <div class="row">
           <button class="btn btn-primary" style="padding:10px 26px" onclick="App.addCart('${p.id}', false)">加入购物车</button>
-          <button class="btn btn-err" style="padding:10px 26px" onclick="App.addCart('${p.id}', true)">立即购买</button>
+          <button class="btn btn-err buy-now" style="padding:10px 26px" onclick="App.addCart('${p.id}', true)">立即购买</button>
         </div>
-        <div style="margin-top:12px" class="muted" style="font-size:12px">🤖 智能客服已就位，右下角可随时咨询；会员积分按实付 1 元 = 1 分</div>
+        <div class="muted" style="margin-top:12px;font-size:12px">🤖 智能客服已就位，右下角可随时咨询；会员积分按实付 1 元 = 1 分</div>
       </div>
     </div>
     <div class="sec-head"><h3><span class="tag tag-ai">智能组货</span> 一键搭购 · 组合更省</h3><span class="muted" style="font-size:12px">FR-21~23：可行性校验 + 组合定价 + 毛利约束${bundle.degraded ? ` · <span class="tag tag-err">已降级：${esc(bundle.degradeReason)}</span>` : ""}</span></div>
@@ -188,7 +188,7 @@ window.Views = (function(){
     </div>
     <div class="sec-head"><h3>💬 商品评价（${p.reviews.length}）</h3></div>
     <div class="card card-pad">
-      ${p.reviews.length ? p.reviews.map(rv => `<div style="padding:8px 0;border-bottom:1px dashed var(--line)"><b>${esc(rv.nickname)}</b> <span style="color:#f7a500">${"★".repeat(rv.rating)}${"☆".repeat(5 - rv.rating)}</span> <span class="muted" style="font-size:12px">${rv.createdAt}</span><div>${esc(rv.content)}</div></div>`).join("") : `<p class="muted">暂无评价</p>`}
+      ${p.reviews.length ? p.reviews.map(rv => `<div style="padding:8px 0;border-bottom:1px dashed var(--line)"><b>${esc(rv.nickname)}</b> <span class="review-stars">${"★".repeat(rv.rating)}${"☆".repeat(5 - rv.rating)}</span> <span class="muted" style="font-size:12px">${rv.createdAt}</span><div>${esc(rv.content)}</div></div>`).join("") : `<p class="muted">暂无评价</p>`}
     </div>`;
   }
   function bundleHtml(p, bundle){
@@ -269,10 +269,10 @@ window.Views = (function(){
       <b>收货地址</b>
       <div class="form-item" style="margin-top:8px">
         <div class="row">
-          <input id="ck-name" style="flex:1;border:1px solid #d6dae1;border-radius:8px;padding:8px 10px" placeholder="收件人" value="${u.address ? esc(u.address.name) : ""}">
-          <input id="ck-phone" style="flex:1;border:1px solid #d6dae1;border-radius:8px;padding:8px 10px" placeholder="手机号" value="${u.address ? esc(u.address.phone) : ""}">
+          <input id="ck-name" style="flex:1;border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px" placeholder="收件人" value="${u.address ? esc(u.address.name) : ""}">
+          <input id="ck-phone" style="flex:1;border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px" placeholder="手机号" value="${u.address ? esc(u.address.phone) : ""}">
         </div>
-        <input id="ck-detail" style="width:100%;border:1px solid #d6dae1;border-radius:8px;padding:8px 10px;margin-top:8px" placeholder="详细地址" value="${u.address ? esc(u.address.detail) : ""}">
+        <input id="ck-detail" style="width:100%;border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px;margin-top:8px" placeholder="详细地址" value="${u.address ? esc(u.address.detail) : ""}">
       </div>
     </div>
     <div class="card card-pad" style="margin-bottom:14px">
@@ -280,7 +280,7 @@ window.Views = (function(){
       ${items.map(i => `<div class="row spread" style="padding:7px 0;border-bottom:1px dashed var(--line)"><span>${i.emoji || "🛍️"} ${esc(i.name)} <span class="muted" style="font-size:12px">${esc(i.spec)} × ${i.qty}</span></span><b>${fmt(i.price * i.qty)}</b></div>`).join("")}
       <div class="form-item" style="margin-top:12px">
         <label>优惠券</label>
-        <select id="ck-coupon" style="width:100%;border:1px solid #d6dae1;border-radius:8px;padding:8px 10px">
+        <select id="ck-coupon" style="width:100%;border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px">
           <option value="">不使用优惠券</option>
           ${coupons.map(cp => `<option value="${cp.id}">${esc(cp.name)}（${esc(cp.scope)}满${cp.threshold}减${cp.amount}）</option>`).join("")}
         </select>
@@ -324,7 +324,7 @@ window.Views = (function(){
     return `<div class="state-steps">${steps.map((s, i) => `
       <div class="state-step ${i <= idx ? "done" : ""} ${i < steps.length - 1 ? "" : ""}">
         <span class="dot">${i <= idx ? "✓" : i + 1}</span><span class="lb">${s}</span>
-      </div>${i < steps.length - 1 ? `<div style="width:26px;height:1px;background:#e3e6ec"></div>` : ""}`).join("")}</div>`;
+      </div>${i < steps.length - 1 ? `<div style="width:26px;height:1px;background:var(--line-strong)"></div>` : ""}`).join("")}</div>`;
   }
 
   /* ==================== 登录 / 注册 ==================== */
@@ -400,7 +400,7 @@ window.Views = (function(){
         <div class="row"><button class="btn btn-sm" onclick="App.loadSample()">载入示例模板</button><span class="muted" style="font-size:12px">V-01~V-12 校验 · 一次反馈全部错误</span></div>
         <div class="row"><button class="btn" onclick="App.catValidate()">🔍 校验（dry-run）</button><button class="btn btn-primary" onclick="App.catImport()">🚀 正式导入</button></div>
       </div>
-      <textarea id="cat-json" class="mono" style="width:100%;height:340px;border:1px solid #d6dae1;border-radius:10px;padding:12px;font-size:12.5px;outline:none">${esc(sample)}</textarea>
+      <textarea id="cat-json" class="mono" style="width:100%;height:340px;border:1px solid var(--line-strong);border-radius:10px;padding:12px;font-size:12.5px;outline:none">${esc(sample)}</textarea>
       <div id="cat-result" style="margin-top:12px"></div>
     </div>`;
   }
@@ -435,10 +435,10 @@ window.Views = (function(){
           <select id="pf-cat" onchange="location.hash='#/merchant/publish?leaf='+this.value">
             ${leaves.map(l => `<option value="${l.code}" ${l.code === sel ? "selected" : ""}>${esc(l.name)}</option>`).join("")}
           </select><div class="hint">表单由该品类的属性 Schema 动态渲染 —— 新增品类无需开发页面（FR-09）</div></div>
-        <div class="row"><input id="pf-emoji" style="width:64px;text-align:center;border:1px solid #d6dae1;border-radius:8px;padding:8px" value="🛍️" title="商品图标 emoji"><input id="pf-name" style="width:280px;border:1px solid #d6dae1;border-radius:8px;padding:8px" placeholder="商品名称 *"></div>
+        <div class="row"><input id="pf-emoji" style="width:64px;text-align:center;border:1px solid var(--line-strong);border-radius:8px;padding:8px" value="🛍️" title="商品图标 emoji"><input id="pf-name" style="width:280px;border:1px solid var(--line-strong);border-radius:8px;padding:8px" placeholder="商品名称 *"></div>
       </div>
       ${fields.join("")}
-      <div class="form-item"><label>商品详情</label><textarea id="pf-detail" rows="2" style="width:100%;border:1px solid #d6dae1;border-radius:8px;padding:8px 10px"></textarea></div>
+      <div class="form-item"><label>商品详情</label><textarea id="pf-detail" rows="2" style="width:100%;border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px"></textarea></div>
       <b style="font-size:13.5px">SKU（价格 / 市场价 / 成本 / 库存）</b>
       <div id="pf-skus"></div>
       <button class="btn btn-sm" onclick="App.addSkuRow()">＋ 添加 SKU</button>
